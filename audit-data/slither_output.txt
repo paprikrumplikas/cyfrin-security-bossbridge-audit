@@ -1,0 +1,76 @@
+Script started on 2024-02-20 11:34:34+01:00 [TERM="xterm-256color" TTY="/dev/pts/12" COLUMNS="150" LINES="2"]
+slither . --config-file slither.config.json 
+'forge clean' running (wd: /home/orgovaan/security/7-boss-bridge-audit)
+'forge build --build-info --skip */test/** */script/** --force' running (wd: /home/orgovaan/security/7-boss-bridge-audit)
+INFO:Detectors:[91m
+L1BossBridge.depositTokensToL2(address,address,uint256) (src/L1BossBridge.sol#71-84) uses arbitrary from in transferFrom: token.safeTransferFrom(from,address(vault),amount) (src/L1BossBridge.sol#80)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#arbitrary-from-in-transferfrom[0m
+INFO:Detectors:[91m
+L1BossBridge.sendToL1(uint8,bytes32,bytes32,bytes) (src/L1BossBridge.sol#118-131) sends eth to arbitrary user
+	Dangerous calls:
+	- (success) = target.call{value: value}(data) (src/L1BossBridge.sol#127)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#functions-that-send-ether-to-arbitrary-destinations[0m
+INFO:Detectors:[93m
+L1Vault.approveTo(address,uint256) (src/L1Vault.sol#19-21) ignores return value by token.approve(target,amount) (src/L1Vault.sol#20)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#unused-return[0m
+INFO:Detectors:[92m
+L1BossBridge.sendToL1(uint8,bytes32,bytes32,bytes).target (src/L1BossBridge.sol#125) lacks a zero-check on :
+		- (success) = target.call{value: value}(data) (src/L1BossBridge.sol#127)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#missing-zero-address-validation[0m
+INFO:Detectors:[92m
+Reentrancy in L1BossBridge.depositTokensToL2(address,address,uint256) (src/L1BossBridge.sol#71-84):
+	External calls:
+	- token.safeTransferFrom(from,address(vault),amount) (src/L1BossBridge.sol#80)
+	Event emitted after the call(s):
+	- Deposit(from,l2Recipient,amount) (src/L1BossBridge.sol#83)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#reentrancy-vulnerabilities-3[0m
+INFO:Detectors:[92m
+TokenFactory.deployToken(string,bytes) (src/TokenFactory.sol#23-37) uses assembly
+	- INLINE ASM (src/TokenFactory.sol#27-34)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#assembly-usage[0m
+INFO:Detectors:[92m
+Different versions of Solidity are used:
+	- Version used: ['0.8.20', '^0.8.20']
+	- 0.8.20 (src/L1BossBridge.sol#15)
+	- 0.8.20 (src/L1Token.sol#2)
+	- 0.8.20 (src/L1Vault.sol#2)
+	- 0.8.20 (src/TokenFactory.sol#2)
+	- ^0.8.20 (lib/openzeppelin-contracts/contracts/access/Ownable.sol#4)
+	- ^0.8.20 (lib/openzeppelin-contracts/contracts/interfaces/IERC20.sol#4)
+	- ^0.8.20 (lib/openzeppelin-contracts/contracts/interfaces/draft-IERC6093.sol#3)
+	- ^0.8.20 (lib/openzeppelin-contracts/contracts/token/ERC20/ERC20.sol#4)
+	- ^0.8.20 (lib/openzeppelin-contracts/contracts/token/ERC20/IERC20.sol#4)
+	- ^0.8.20 (lib/openzeppelin-contracts/contracts/token/ERC20/extensions/IERC20Metadata.sol#4)
+	- ^0.8.20 (lib/openzeppelin-contracts/contracts/token/ERC20/extensions/IERC20Permit.sol#4)
+	- ^0.8.20 (lib/openzeppelin-contracts/contracts/token/ERC20/utils/SafeERC20.sol#4)
+	- ^0.8.20 (lib/openzeppelin-contracts/contracts/utils/Address.sol#4)
+	- ^0.8.20 (lib/openzeppelin-contracts/contracts/utils/Context.sol#4)
+	- ^0.8.20 (lib/openzeppelin-contracts/contracts/utils/Pausable.sol#4)
+	- ^0.8.20 (lib/openzeppelin-contracts/contracts/utils/ReentrancyGuard.sol#4)
+	- ^0.8.20 (lib/openzeppelin-contracts/contracts/utils/Strings.sol#4)
+	- ^0.8.20 (lib/openzeppelin-contracts/contracts/utils/cryptography/ECDSA.sol#4)
+	- ^0.8.20 (lib/openzeppelin-contracts/contracts/utils/cryptography/MessageHashUtils.sol#4)
+	- ^0.8.20 (lib/openzeppelin-contracts/contracts/utils/math/Math.sol#4)
+	- ^0.8.20 (lib/openzeppelin-contracts/contracts/utils/math/SignedMath.sol#4)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#different-pragma-directives-are-used[0m
+INFO:Detectors:[92m
+Pragma version0.8.20 (src/L1BossBridge.sol#15) necessitates a version too recent to be trusted. Consider deploying with 0.8.18.
+Pragma version0.8.20 (src/L1Token.sol#2) necessitates a version too recent to be trusted. Consider deploying with 0.8.18.
+Pragma version0.8.20 (src/L1Vault.sol#2) necessitates a version too recent to be trusted. Consider deploying with 0.8.18.
+Pragma version0.8.20 (src/TokenFactory.sol#2) necessitates a version too recent to be trusted. Consider deploying with 0.8.18.
+solc-0.8.20 is not recommended for deployment
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#incorrect-versions-of-solidity[0m
+INFO:Detectors:[92m
+Low level call in L1BossBridge.sendToL1(uint8,bytes32,bytes32,bytes) (src/L1BossBridge.sol#118-131):
+	- (success) = target.call{value: value}(data) (src/L1BossBridge.sol#127)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#low-level-calls[0m
+INFO:Detectors:[92m
+L1BossBridge.DEPOSIT_LIMIT (src/L1BossBridge.sol#30) should be constant 
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#state-variables-that-could-be-declared-constant[0m
+INFO:Detectors:[92m
+L1Vault.token (src/L1Vault.sol#13) should be immutable 
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#state-variables-that-could-be-declared-immutable[0m
+INFO:Slither:. analyzed (22 contracts with 92 detectors), 15 result(s) found
+make: *** [Makefile:37: slither] Error 255
+
+Script done on 2024-02-20 11:34:37+01:00 [COMMAND_EXIT_CODE="2"]
